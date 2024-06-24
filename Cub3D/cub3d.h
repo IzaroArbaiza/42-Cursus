@@ -6,7 +6,7 @@
 /*   By: iarbaiza <iarbaiza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:44:08 by iarbaiza          #+#    #+#             */
-/*   Updated: 2024/06/21 19:53:06 by iarbaiza         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:59:28 by iarbaiza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ typedef struct s_game
 	char	*t_c;
 	int		rgb_up[3];
 	int		rgb_down[3];
+	int		width_map;
+	int		height_map;
 	t_ray	*r;
+	void	*img;
 	t_img	*render;
 	t_img	*tex_n;
 	t_img	*tex_s;
@@ -96,7 +99,7 @@ void	read_map_extended(char **str, char **line, t_game *game, int *count);
 void	read_map(int fd, t_game *game);
 void	map_parse(char *argv, t_game *m, t_ray *ray);
 
-/* Utils Parse - utils_parse.c */
+/* Utils Parse - utils_parse.c*/
 char	*check_path(char *path);
 int		check_int(char *str);
 int		empty(char *str);
@@ -106,7 +109,7 @@ int		int_verification(char *temp_f, char *temp_c, t_game *g);
 /* ********************************************************** */
 /*                           ERRORS                           */
 /* ********************************************************** */
-/* Map errors checking - check_map.c */
+/* Map errors - check_map.c*/
 void	get_player_angle(t_game *g, char c);
 void	fill_map(char **map, int x, int y);
 int		check_line(t_game *game, char *next, char *pre, int x);
@@ -117,63 +120,53 @@ void	map_args(t_game *game, t_ray *ray);
 int		check_colition(t_game *g, int *next);
 
 /* ********************************************************** */
-/*                         INITIALIZE                         */
-/* ********************************************************** */
-/* Initialize textures - init_texturer.c */
-void	open_north(t_game *g);
-void	open_east(t_game *g);
-void	open_west(t_game *g);
-void	open_south(t_game *g);
-void	open_texture(t_game *g);
-
-/* initialize movements - initialize.c */
-void	init_flags(t_game *g);
-
-/* ********************************************************** */
 /*                         RAYCASTING                         */
 /* ********************************************************** */
-/* DDA and colitions - dda.c */
+/* DDA - dda.c */
 float	dda(t_game *g, double angle);
 void	incr_calc(float *ray_x, float *ray_y, double ray);
 int		colition(t_game *g, int x, int y);
 
-/* Casting - ray_cast.c */
-float			degree_to_radians(float degree);
-unsigned long	rgb_hex(int r, int g, int b);
-void			raycast(t_game *g);
-double			correct_cast_angle(t_game *g);
-float			cast(t_game *g, double ray);
+/* Casting */
+void	raycast(t_game *g);
+double	correct_cast_angle(t_game *g);
+float	cast(t_game *g, double ray);
+float	degree_to_radians(float degree);
 
 /* ********************************************************** */
 /*                           DRAWING                          */
 /* ********************************************************** */
-/* 3D printing map - 3D.c */
+/* 3D printing - map3D.c*/
 float	unfish(float distance, float angle, double player_angle);
 int		floor_wall_roof_proportion(float distance, float *wall, int flag);
 int		draw_vert_line(t_game *g, int x, float *limit, int color);
 void	img_pix_put(t_game *g, int x, int y, int color);
 void	init_image(t_game *g);
 
-/* Get direction and textures - wall_direction.c */
-float	nor_angle(float angle);
+/*wall_direction.c*/
 t_img	*get_texture(float angle, int flag, t_game *g);
+float	nor_angle(float angle);
 
-/* Geting and painting textures - texturer.c */
+//texturer.c
 int		get_tex_pix(t_img *tex, int x, int y);
 void	tex_pix_put(t_game *g, int x, int y, int tex_pix);
+void	open_texture(t_game *g);
 int		draw_texture(t_game *g, int wall_x, float *wall, t_img *tex);
 
 /* ********************************************************** */
 /*                           MOVING                           */
 /* ********************************************************** */
-/* Movements - move.c */
+/* initialize movements - initialize.c */
+void	init_flags(t_game *g);
+
+/*move.c*/
 double	mod_turn(t_game *g);
 void	move_player(t_game *g);
 void	move(float *next, t_game *g);
 void	turn_player(t_game *g);
 void	do_event(t_game *g);
 
-/* Hook events - hooks.c */
+/*  hook event */
 int		key_press(int keycode, t_game *g);
 int		key_release(int keycode, t_game *g);
 int		hooked_mouse(t_game *g);
@@ -183,19 +176,18 @@ int		loop_hook(t_game *g);
 /* ********************************************************** */
 /*                           EXTRAS                           */
 /* ********************************************************** */
-/* Utils - utils.c */
+
+/* Utils */
 void	ft_error(char	*str);
 int		is_valid_char(char c, char *valid_char);
 void	remove_spaces(char *str);
 void	free_char2(char **str);
 int		ft_strlen_int(char *str);
 
-/* ********************************************************** */
-/*                           BONUS                            */
-/* ********************************************************** */
 /* 2D map - 2D.c*/
 void	sprite_wall(int c_x, int c_y, t_game *g);
 void	sprite_floor(int c_x, int c_y, t_game *g);
+void	sprite_player(int c_x, int c_y, t_game *g);
 void	sprite_to_map(t_game *g);
 void	player_cell(t_game *g);
 void	render_rect(t_game *g, int x, int y, int color);

@@ -6,13 +6,13 @@
 #    By: iarbaiza <iarbaiza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 12:44:25 by iarbaiza          #+#    #+#              #
-#    Updated: 2024/06/21 19:28:14 by iarbaiza         ###   ########.fr        #
+#    Updated: 2024/06/21 13:59:07 by iarbaiza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-INCLUDES = cub3d.h
+INCLUDES = ./src/includes/cub3d.h
 
 SRCS =	GNL/get_next_line.c \
 		GNL/get_next_line_utils.c \
